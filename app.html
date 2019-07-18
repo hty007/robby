@@ -1,0 +1,70 @@
+<!doctype html>
+<html ng-app="robot">
+<head>
+<meta charset="utf-8">
+</head>
+<body ng-controller="robotController">
+<h1> Робот Робби </h1>
+<div>
+	<input class="form-control" ng-model="map" placeholder = "Карта" />
+    <input type="number" class="form-control" ng-model="energy" placeholder="Энергия" />
+    <button class="btn btn-default" ng-click="addItem(map, energy)">Добавить</button>
+</div>    
+<table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Карта</th>
+                    <th>Энергия</th>
+                    <th>Путь</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in list.items">
+                    <td>{{item.field}}</td>
+                    <td>{{item.energy}}</td>
+                    <td>{{item.answer}}</td>
+                </tr>
+            </tbody>
+        </table> 
+<script src="robot.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+<script>
+var	map1 = 	'....'+
+			'.T#.'+
+			'.##.'+
+			'..S.';
+var model={
+	items:[
+		{field:'T.S.',		energy: 5, 	answer:[] },
+		{field:'S.......T',	energy: 10, answer:[] },
+		{field:'S.......T',	energy: 5, 	answer:[] },
+		{field:'S#.##...T',	energy: 20, answer:[] },
+		{field: map1,		energy: 7, 	answer:[] },
+	]
+}
+for(key in model.items){
+	model.items[key].answer=getCommands(model.items[key].field, model.items[key].energy);
+	}
+/*
+for (let item of model.items)
+{
+	item.answer=getCommands(item.field, item.energy);
+	} 
+/**/	
+var robotApp = angular.module("robot", []);
+	robotApp.controller('robotController', function ($scope){
+	$scope.list = model;
+	$scope.addItem = function (map, energy){
+		energy = parseFloat(energy);
+		var ans = getCommands(map, energy);
+		if(map != "" && !isNaN(energy)) // если текст установлен и введено число, то добавляем
+        {
+			$scope.list.items.push({ field: map, energy: energy, answer:ans  });
+		}
+	}});
+	
+	
+</script>
+</body>
+</html>

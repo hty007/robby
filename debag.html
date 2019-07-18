@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title> Отладка </title>
+</head>
+<body>
+<input id="in" type="number" value="1" onchange='onChenge(this.value)'/>
+<input id="out" type="text" value="10" />
+<p id='getStart'>ghbdtn</p>
+</br>
+<input id="pos" type="number" value="0" onchange='onChengePos(this.value)'/>
+<p id='posUp'></p>
+<p id='posDn'></p>
+<p id='posLf'></p>
+<p id='posRg'></p>
+
+<script src="robot.js"></script>
+<script>
+	//var field = "S#....#........###..T....";
+	//var field ='T.S.';
+	//var field ='S.......T';
+	var field ='S#.##...T';
+	var map = new Map(field);
+	var getS = document.getElementById('getStart');
+	getS.innerHTML = getCommands(field,20);
+	
+function onChenge(value){
+	var out = document.getElementById('out');
+	//var map = new Map("S#....#........###..T....")
+	out.value=po(map.getCoordinate(value))+" "+map.map[value];
+	}
+	
+function po(pount){
+	//return "{0},{1}".format(pount.x,pount.y)
+	return pount.x+","+pount.y;
+	}
+function onChengePos(value){
+	document.getElementById('posUp').innerHTML = map.posUp(value);
+	document.getElementById('posDn').innerHTML = map.posDn(value);
+	document.getElementById('posLf').innerHTML = map.posLf(value);
+	document.getElementById('posRg').innerHTML = map.posRg(value);
+	}	
+	
+</script>
+
+</body>
+</html>
